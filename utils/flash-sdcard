@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# ==========================
+# Flash SD card
+# ==========================
+
+read -p "Insert SD card device then press any key"
+
+lsblk|grep "sd"
+
+read -p "SD card device name ? /dev/sd" SDCARD_DEV
+
+DEV=/dev/sd$SDCARD_DEV
+
+echo "Unmounting device" $DEV
+
+set +e
+
+sudo umount $DEV"1"
+sudo umount $DEV"2"
+
+echo "Flashing image file on SD card..."
+
+set -e
+
+# flash u-boot on sdcard
+sudo dd if=output/images/sdcard.img of=$DEV bs=4M status=progress
+
+echo "Done."
+
+sudo eject $DEV
+
+echo "SD card ejected."
+
