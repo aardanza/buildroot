@@ -19,9 +19,18 @@ MKIMAGE=$HOST_DIR/bin/mkimage
 # for Amlogic U-Boot
 # for SD card
 echo "INFO: SD CARD aml_autoscript"
-$MKIMAGE -C none -A arm64 -T script -d $BOARD_DIR/boot.txt $BINARIES_DIR/boot.scr
+$MKIMAGE -C none -A arm64 -T script -d $BOARD_DIR/boot.txt $BINARIES_DIR/boot.scr.uimg
 
-#$MKIMAGE -C none -A arm64 -T script -d $BOARD_DIR/boot.txt $BINARIES_DIR/aml_autoscript
+$MKIMAGE -C none -A arm64 -T script -d $BOARD_DIR/boot.txt $BINARIES_DIR/aml_autoscript
+
+
+echo "INFO: generate u-boot.ext"
+UBOOT_OVERLOAD=${BOARD_DIR}/uboot/u-boot-x96maxplus.bin
+# Add u-boot.ext for 5.10 kernel
+#if [[ -n "${UBOOT_OVERLOAD}" && -f "${UBOOT_OVERLOAD}" ]]; then
+	cp -f ${UBOOT_OVERLOAD} $BINARIES_DIR/u-boot.ext && sync
+	chmod +x u-boot.ext
+#fi
 
 
 # move dtb in amlogic subdir

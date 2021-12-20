@@ -8,7 +8,7 @@ GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 
 rm -rf "${GENIMAGE_TMP}"
 
-#cp "${BOARD_DIR}/meson-sm1-x96-max-plus.dtb" "${BINARIES_DIR}"
+cp "${BOARD_DIR}/meson-sm1-x96-max-plus-100m.dtb" "${BINARIES_DIR}"
 
 # generate image
 
@@ -32,6 +32,9 @@ mkdir ${OUTPUT_BIN_DIR}
 rm ${OUTPUT_BIN_DIR}/*
 
 set -e
+
+MAINLINE_UBOOT="${BOARD_DIR}/uboot/x96maxplus-u-boot.bin.sd.bin"
+
 
 ##########################################
 # 	Mainline U-Boot (build by Buildroot)
@@ -106,8 +109,8 @@ set -e
 
 	echo "Adding bootloader to SD card image..."
 
-	dd if=${BINARIES_DIR}/u-boot.bin.sd.bin of="${BINARIES_DIR}/sdcard.img" conv=fsync,notrunc bs=1 count=442 status=progress
-	dd if=${BINARIES_DIR}/u-boot.bin.sd.bin of="${BINARIES_DIR}/sdcard.img" conv=fsync,notrunc bs=512 skip=1 seek=1 status=progress
+#	dd if=${MAINLINE_UBOOT} of="${BINARIES_DIR}/sdcard.img" bs=1 count=444 conv=fsync 2>/dev/null status=progress
+#	dd if=${MAINLINE_UBOOT} of="${BINARIES_DIR}/sdcard.img" bs=512 skip=1 seek=1 conv=fsync 2>/dev/null status=progress
 
 	echo "========================================================================"
 	echo "	Done. Please run $ ./utils/flash-sdcard to flash image "

@@ -1,7 +1,11 @@
 setenv bootargs console=ttyAML0,115200 earlyprintk root=PARTUUID=feedc0de-02 rootwait
 
-fatload mmc 0:1 0x01080000 uImage
+#fatload mmc 0:1 0x01080000 Image
 
-fatload mmc 0:1 $dtb_mem_addr meson-sm1-x96-max-plus.dtb
+#fatload mmc 0:1 $dtb_mem_addr meson-sm1-x96-max-plus-100m.dtb
 
-bootm 0x1080000 - $dtb_mem_addr
+#bootm 0x1080000 - $dtb_mem_addr
+
+fatload mmc 0:1 ${kernel_addr_r} Image
+fatload mmc 0:1 ${fdt_addr} meson-sm1-x96-max-plus-100m.dtb
+booti ${kernel_addr_r} - ${fdt_addr}
